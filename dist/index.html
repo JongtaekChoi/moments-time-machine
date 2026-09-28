@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#10233f" />
+    <meta name="description" content="아이와 부모가 서로의 하루를 다시 선택해 보는 짧은 감정 어드벤처" />
+    <title>마음의 타임머신 — 또 깜빡했어</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="game-shell" aria-live="polite">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="처음으로">마음의 <strong>타임머신</strong></a>
+        <div class="chapter-label">CH. 01 · 또 깜빡했어</div>
+        <button class="quiet-button" id="restart" type="button">처음부터</button>
+      </header>
+
+      <section class="scene" id="scene">
+        <div class="scene-image" aria-hidden="true"></div>
+        <div class="scene-vignette" aria-hidden="true"></div>
+        <div class="scene-copy">
+          <p class="eyebrow" id="eyebrow"></p>
+          <h1 id="title"></h1>
+          <p class="narration" id="narration"></p>
+        </div>
+        <div class="clock-card" id="clockCard" hidden>
+          <span aria-hidden="true">↺</span>
+          <div><b>마음의 시계</b><small>상대의 하루를 알고 나면, 한 번 더 말할 수 있어요.</small></div>
+        </div>
+      </section>
+
+      <section class="dialogue-panel" aria-label="이야기 선택">
+        <div class="speaker" id="speaker"></div>
+        <p class="line" id="line"></p>
+        <div class="choices" id="choices"></div>
+        <p class="hint" id="hint"></p>
+      </section>
+    </main>
+    <script src="./app.js"></script>
+  </body>
+</html>
