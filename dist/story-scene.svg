@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">저녁 식탁의 도윤과 엄마</title>
+  <desc id="desc">따뜻한 집 안에서 엄마와 아이가 준비물 가방을 사이에 두고 앉아 있는 완성된 벡터 일러스트</desc>
+  <defs>
+    <linearGradient id="wall" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#e9e2d8"/><stop offset="1" stop-color="#d5c7bd"/></linearGradient>
+    <linearGradient id="night" x1="0" x2="1"><stop stop-color="#203b61"/><stop offset="1" stop-color="#49698c"/></linearGradient>
+    <linearGradient id="floor" x1="0" x2="1"><stop stop-color="#a8755c"/><stop offset="1" stop-color="#c88b68"/></linearGradient>
+    <filter id="shadow"><feGaussianBlur stdDeviation="12"/></filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#wall)"/>
+  <rect y="650" width="1600" height="250" fill="url(#floor)"/>
+  <path d="M0 680h1600M0 755h1600M220 650v250M520 650v250M820 650v250M1120 650v250M1420 650v250" stroke="#8b5d4e" stroke-width="5" opacity=".34"/>
+  <rect x="805" y="78" width="555" height="332" rx="12" fill="#fff4d8" stroke="#9b795f" stroke-width="18"/>
+  <rect x="830" y="103" width="505" height="282" fill="url(#night)"/>
+  <circle cx="1210" cy="163" r="37" fill="#f8e4a8"/>
+  <path d="M850 325c80-72 140-70 215-8 70-95 159-93 270 3v65H830v-61z" fill="#1c3049" opacity=".72"/>
+  <path d="M1082 103v282M830 244h505" stroke="#9b795f" stroke-width="14"/>
+  <rect x="80" y="100" width="335" height="230" rx="10" fill="#f4eadb" stroke="#b28d75" stroke-width="13"/>
+  <path d="M110 284c55-91 100-70 136-10 36-54 72-74 138 8" fill="none" stroke="#e88a70" stroke-width="15" stroke-linecap="round"/>
+  <circle cx="176" cy="176" r="23" fill="#f4ae56"/><path d="M242 146v77M210 184h66" stroke="#49698c" stroke-width="12" stroke-linecap="round"/>
+  <ellipse cx="1135" cy="751" rx="396" ry="43" fill="#473329" opacity=".24" filter="url(#shadow)"/>
+  <path d="M850 552h565l-66 177H912z" fill="#d8aa76"/>
+  <path d="M841 552h583l-26 30H866z" fill="#f0cc9b"/>
+  <rect x="1087" y="519" width="113" height="40" rx="7" fill="#e2e9dc" transform="rotate(-5 1087 519)"/>
+  <path d="M1110 536h65" stroke="#76a26d" stroke-width="7"/>
+  <rect x="1220" y="497" width="49" height="63" rx="8" fill="#f3cc4e"/><path d="M1235 509v38M1252 509v38" stroke="#e58359" stroke-width="7"/>
+  <path d="M1266 506c21-19 44-11 47 12-2 18-23 24-47 12z" fill="#f7f0dd"/>
+  <path d="M1267 518c14 9 29 9 45 0" fill="none" stroke="#dd7e67" stroke-width="5"/>
+  <g transform="translate(895 258)">
+    <path d="M85 236c-34 65-39 144-25 258h90l21-178 21 178h90c14-126 6-213-31-264z" fill="#b87069"/>
+    <ellipse cx="150" cy="116" rx="66" ry="78" fill="#f2c4a1"/>
+    <path d="M82 109c2-83 45-114 89-105 62 13 74 65 42 114l-24-42-18 38-34-30z" fill="#4a3634"/>
+    <path d="M118 132h13M167 132h13" stroke="#3c3030" stroke-width="7" stroke-linecap="round"/>
+    <path d="M135 166c13 9 27 9 40 0" fill="none" stroke="#b4615b" stroke-width="6" stroke-linecap="round"/>
+    <path d="M91 259c-62 35-88 85-79 123 17 4 35-3 45-20l54-56z" fill="#f2c4a1"/>
+    <path d="M207 264c54 27 73 65 69 103-15 6-31 0-40-15l-50-54z" fill="#f2c4a1"/>
+  </g>
+  <g transform="translate(1190 390)">
+    <path d="M72 178c-20 58-17 146 8 224h77l17-139 23 139h75c21-86 18-170-12-225z" fill="#4f87ad"/>
+    <ellipse cx="141" cy="91" rx="57" ry="69" fill="#f1c39f"/>
+    <path d="M84 88C78 28 118 0 161 10c47 10 68 42 44 93l-17-28-22 30-41-22z" fill="#352c31"/>
+    <path d="M111 104h12M157 104h12" stroke="#32292e" stroke-width="7" stroke-linecap="round"/>
+    <path d="M127 139c12 8 24 8 35 0" fill="none" stroke="#b4615b" stroke-width="6" stroke-linecap="round"/>
+    <path d="M93 208c-45 18-63 45-63 79 16 6 29 1 38-10l39-37z" fill="#f1c39f"/>
+    <path d="M193 208c43 16 59 44 54 76-14 5-27 0-35-11l-35-41z" fill="#f1c39f"/>
+  </g>
+  <g transform="translate(1260 560) rotate(-9)">
+    <rect width="132" height="94" rx="12" fill="#557f9e"/>
+    <rect x="12" y="12" width="108" height="52" rx="7" fill="#f5e7ca"/>
+    <path d="M26 78h80" stroke="#e6b36e" stroke-width="8" stroke-linecap="round"/>
+    <path d="M45 0v-22h44v22" fill="none" stroke="#557f9e" stroke-width="12" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(600 535)">
+    <rect x="0" y="0" width="95" height="112" rx="8" fill="#f7e8c4" stroke="#b18d6e" stroke-width="7"/>
+    <path d="M18 30h56M18 54h48M18 78h59" stroke="#d78467" stroke-width="7" stroke-linecap="round"/>
+    <path d="M20 30l6 6 10-14M20 54l6 6 10-14" fill="none" stroke="#74a371" stroke-width="5"/>
+  </g>
+  <path d="M0 0h1600v900H0z" fill="url(#night)" opacity=".08"/>
+</svg>
