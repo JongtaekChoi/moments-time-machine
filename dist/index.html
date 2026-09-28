@@ -12,7 +12,7 @@
     <main class="game-shell" aria-live="polite">
       <header class="topbar">
         <a class="brand" href="./" aria-label="처음으로">마음의 <strong>타임머신</strong></a>
-        <div class="chapter-label">CH. 01 · 또 깜빡했어</div>
+        <div class="chapter-label" id="chapterLabel">CH. 01 · 또 깜빡했어</div>
         <button class="quiet-button" id="restart" type="button">처음부터</button>
       </header>
 
@@ -20,6 +20,7 @@
         <div class="scene-image" aria-hidden="true"></div>
         <div class="scene-vignette" aria-hidden="true"></div>
         <div class="scene-copy">
+          <p class="role-tag" id="roleTag"></p>
           <p class="eyebrow" id="eyebrow"></p>
           <h1 id="title"></h1>
           <p class="narration" id="narration"></p>
