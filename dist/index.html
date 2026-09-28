@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#10233f" />
-    <meta name="description" content="아이와 부모가 서로의 하루를 다시 선택해 보는 짧은 감정 어드벤처" />
+    <meta name="description" content="아이와 부모가 반복되는 일상 속에서 다시 시도한 흔적을 남기는 짧은 감정 어드벤처" />
     <title>마음의 타임머신 — 또 깜빡했어</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
@@ -13,7 +13,7 @@
       <header class="topbar">
         <a class="brand" href="./" aria-label="처음으로">마음의 <strong>타임머신</strong></a>
         <div class="chapter-label" id="chapterLabel">CH. 01 · 또 깜빡했어</div>
-        <button class="quiet-button" id="restart" type="button">처음부터</button>
+        <button class="quiet-button" id="restart" type="button">이번 월요일 처음부터</button>
       </header>
 
       <section class="scene" id="scene">
@@ -25,10 +25,6 @@
           <h1 id="title"></h1>
           <p class="narration" id="narration"></p>
         </div>
-        <div class="clock-card" id="clockCard" hidden>
-          <span aria-hidden="true">↺</span>
-          <div><b>마음의 시계</b><small>상대의 하루를 알고 나면, 한 번 더 말할 수 있어요.</small></div>
-        </div>
       </section>
 
       <section class="dialogue-panel" aria-label="이야기 선택">
@@ -36,6 +32,16 @@
         <p class="line" id="line"></p>
         <div class="choices" id="choices"></div>
         <p class="hint" id="hint"></p>
+      </section>
+
+      <section class="keepsake-board" id="keepsakeBoard" hidden aria-label="우리 집에 남은 것">
+        <div>
+          <p class="eyebrow">우리 집에 남은 것</p>
+          <h2>다음 월요일에도 보일 작은 흔적</h2>
+          <p>점수도, 정답도 아니에요. 오늘 함께 남긴 방법이에요.</p>
+        </div>
+        <div class="keepsake-items" id="keepsakeItems"></div>
+        <button class="quiet-button clear-button" id="clearKeepsakes" type="button">흔적 선반 비우기</button>
       </section>
     </main>
     <script src="./app.js"></script>
