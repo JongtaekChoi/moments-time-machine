@@ -1,32 +1,16 @@
 const $=s=>document.querySelector(s);
-const state={notice:false,placement:null,found:new Set()};
-const bag=$('#bag'),card=$('#noticeCard'),zones=$('#dropZones'),trace=$('#traceCard');
+const state={scene:'entry',notice:false,placement:null,roomNotice:false,glue:false};
+const stage=$('#stage'),art=$('#sceneArt'),card=$('#noticeCard'),zones=$('#dropZones'),trace=$('#traceCard');
 const line=$('#line'),speaker=$('#speaker'),hint=$('#hint'),actions=$('#actions'),narration=$('#narration');
-
-function setTalk(name,text,tip){speaker.textContent=name;line.textContent=text;hint.textContent=tip||''}
+const entryHotspots=['#bag','#board','#umbrella','#snack'].map($);
+const roomHotspots=['#roomNotice','#glue','#clock'].map($);
+function setTalk(name,text,tip=''){speaker.textContent=name;line.textContent=text;hint.textContent=tip}
 function setActions(items=[]){actions.innerHTML='';items.forEach(([label,fn])=>{const b=document.createElement('button');b.className='action';b.type='button';b.textContent=label;b.addEventListener('click',fn);actions.append(b)})}
-function found(name,text){state.found.add(name);setTalk('도윤의 마음',text,'다른 반짝이는 물건도 눌러 볼 수 있어요.')}
-function openBag(){
-  state.notice=true;card.hidden=false;zones.hidden=false;bag.classList.add('opened');
-  narration.textContent='가방 앞주머니에서 구겨진 안내장이 나왔다.';
-  setTalk('도윤','“색종이랑 자는 있는데… 풀통은 어디 있지?”','아래 장소 중 하나를 눌러 가방을 옮겨 보세요.');
-  setActions([['안내장 다시 보기',()=>card.animate([{transform:'rotate(-3deg)'},{transform:'rotate(2deg)'},{transform:'rotate(-3deg)'}],{duration:360})]]);
-}
-function placeBag(place){
-  state.placement=place;zones.hidden=true;bag.style.opacity='.18';bag.style.pointerEvents='none';
-  const labels={['식탁 의자']:'눈에 잘 보이는 식탁 의자',['내 방']:'편한 내 방',['현관 바구니']:'현관 바구니'};
-  setTalk('도윤',`“가방은 ${labels[place]}에 둘래.”`,'가방을 둔 곳은 다음 장면에도 기억돼요.');
-  $('#traceTitle').textContent=`가방을 ${place}에 뒀어요.`;
-  $('#traceText').textContent='아직 준비물이 다 해결된 것은 아니지만, 오늘 저녁의 작은 시작이 남았어요.';
-  trace.hidden=false;
-  setActions([['현관을 더 살펴보기',()=>setTalk('도윤의 마음','“우산이랑 간식도 눌러 볼까?”','필수 행동을 끝낸 뒤에도 숨은 반응을 찾을 수 있어요.')]]);
-  trace.scrollIntoView({behavior:'smooth',block:'nearest'});
-}
-$('#bag').addEventListener('click',openBag);
-$('#board').addEventListener('click',()=>found('board','“지난주에 붙인 그림도 아직 여기 있네.”'));
-$('#umbrella').addEventListener('click',()=>found('umbrella','우산을 톡 건드리자 물방울이 반짝이며 바닥으로 톡, 톡 떨어졌다.'));
-$('#snack').addEventListener('click',()=>found('snack','“간식은 먹고 싶지만, 가방도 조금 신경 쓰여.”'));
-document.querySelectorAll('.drop-zone').forEach(b=>b.addEventListener('click',()=>placeBag(b.dataset.place)));
-$('#restart').addEventListener('click',()=>location.reload());
-$('#nextScene').addEventListener('click',()=>{setTalk('다음 장면','도윤의 방에서 알림장을 펴 보고, 빈 풀통을 찾아볼 차례예요.','방 장면은 다음 작업에서 이어집니다. 현관의 가방 위치는 이미 기록됐어요.');});
-setActions([['가방 열어 보기',openBag]]);
+function showTrace(title,text,button){$('#traceTitle').textContent=title;$('#traceText').textContent=text;$('#nextScene').textContent=button;trace.hidden=false;trace.scrollIntoView({behavior:'smooth',block:'nearest'})}
+function openBag(){state.notice=true;card.hidden=false;zones.hidden=false;narration.textContent='가방 앞주머니에서 구겨진 안내장이 나왔다.';$('#cardTitle').textContent='내일 미술';$('#cardList').textContent='색종이 · 풀 · 자';$('#cardNote').textContent='가방 안에서 구겨진 안내장이 나왔다.';setTalk('도윤','“색종이랑 자는 있는데… 풀통은 어디 있지?”','아래 장소 중 하나를 눌러 가방을 옮겨 보세요.');setActions([['안내장 다시 보기',()=>card.animate([{transform:'rotate(-3deg)'},{transform:'rotate(2deg)'},{transform:'rotate(-3deg)'}],{duration:360})]])}
+function placeBag(place){state.placement=place;zones.hidden=true;$('#bag').style.opacity='.18';$('#bag').style.pointerEvents='none';setTalk('도윤',`“가방은 ${place}에 둘래.”`,'가방을 둔 곳은 오늘의 작은 흔적으로 남아요.');showTrace(`가방을 ${place}에 뒀어요.`,'아직 준비물이 다 해결된 것은 아니지만, 오늘 저녁의 작은 시작이 남았어요.','방으로 가기')}
+function enterRoom(){state.scene='room';trace.hidden=true;card.hidden=true;zones.hidden=true;stage.classList.add('room');art.src='./assets/ch01-room.jpg';art.alt='저녁의 도윤 방, 책상 위 가방과 알림장, 빈 풀통';entryHotspots.forEach(el=>el.hidden=true);roomHotspots.forEach(el=>el.hidden=false);$('#sceneEyebrow').textContent='월요일 · 내 방';$('#sceneTitle').textContent='풀통의 비밀';narration.textContent='책상 위에 가방을 열어 두자, 아까의 안내장이 다시 눈에 들어왔다.';setTalk('도윤의 마음','“알림장도 보고… 책상 위도 한번 볼까?”','알림장과 반짝이는 물건을 눌러 보세요.');setActions([['알림장 펴 보기',openRoomNotice]]);window.scrollTo({top:0,behavior:'smooth'})}
+function openRoomNotice(){state.roomNotice=true;card.hidden=false;$('#cardTitle').textContent='내일 미술 준비물';$('#cardList').textContent='색종이 · 풀 · 자';$('#cardNote').textContent='준비물 셋 중 하나가 가방에도 책상에도 없다.';setTalk('도윤','“아, 풀. 아까부터 찾던 게 이거였구나.”','책상 위의 빈 풀통을 눌러 확인해 보세요.');setActions([['빈 풀통 찾기',inspectGlue]])}
+function inspectGlue(){if(!state.roomNotice){setTalk('도윤의 마음','“먼저 무슨 준비물인지 알림장을 볼까?”','알림장을 먼저 펴도, 여기저기 먼저 살펴도 괜찮아요.');return}state.glue=true;setTalk('도윤','“앗. 이건 다 쓴 풀통이네.”','지금 할 수 있는 작은 다음 행동을 골라 보세요.');setActions([['엄마에게 말하기',()=>finishRoom('엄마에게 먼저 말해 두기로 했어요.','저녁이 완벽해진 건 아니어도, 혼자 숨기지 않고 도움을 청했어요.')],['내 물건함 확인하기',()=>finishRoom('물건함을 함께 확인하기로 했어요.','바로 새 풀을 찾지 못해도, 어디에 있을지 함께 좁혀 볼 수 있어요.')]])}
+function finishRoom(title,text){setTalk('도윤의 마음','“내일 아침의 나도, 조금 덜 당황하면 좋겠다.”','정답을 고른 것이 아니라, 오늘 할 수 있는 다음 한 걸음을 남겼어요.');showTrace(title,text,'오늘의 흔적 보기')}
+$('#bag').addEventListener('click',openBag);$('#board').addEventListener('click',()=>setTalk('도윤의 마음','“지난주에 붙인 그림도 아직 여기 있네.”','다른 반짝이는 물건도 눌러 볼 수 있어요.'));$('#umbrella').addEventListener('click',()=>setTalk('도윤의 마음','우산을 톡 건드리자 물방울이 반짝이며 바닥으로 톡, 톡 떨어졌다.','비 오는 날의 기억도 가방 옆에 남아 있다.'));$('#snack').addEventListener('click',()=>setTalk('도윤의 마음','“간식은 먹고 싶지만, 가방도 조금 신경 쓰여.”','어느 쪽을 먼저 해도 오늘은 계속된다.'));$('#roomNotice').addEventListener('click',openRoomNotice);$('#glue').addEventListener('click',inspectGlue);$('#clock').addEventListener('click',()=>setTalk('도윤의 마음','“시계가 벌써 이렇게 됐네. 침대의 공룡도 하품하는 것 같아.”','필수 물건 말고도 짧은 반응을 찾아보세요.'));document.querySelectorAll('.drop-zone').forEach(b=>b.addEventListener('click',()=>placeBag(b.dataset.place)));$('#restart').addEventListener('click',()=>location.reload());$('#nextScene').addEventListener('click',()=>{if(state.scene==='entry')enterRoom();else setTalk('오늘의 흔적','방에서 알아낸 것을 들고, 다음 장면으로 이어갈 준비를 했어요.','다음에는 아침의 준비와 우리 집의 흔적을 이어 붙일게요.')});setActions([['가방 열어 보기',openBag]]);

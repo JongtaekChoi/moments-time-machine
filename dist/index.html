@@ -15,49 +15,38 @@
       <span>CH. 01 · 또 깜빡했어</span>
       <button id="restart" class="quiet-button" type="button">다시 보기</button>
     </header>
-
     <section class="explore" aria-labelledby="sceneTitle">
       <div class="art-stage" id="stage">
-        <img src="./assets/ch01-entryway.jpg" alt="저녁 현관의 가방, 우산, 간식, 코르크판" />
+        <img id="sceneArt" src="./assets/ch01-entryway.jpg" alt="저녁 현관의 가방, 우산, 간식, 코르크판" />
         <div class="shade" aria-hidden="true"></div>
-
         <button class="hotspot bag" id="bag" type="button" aria-label="가방 살펴보기"><span>가방</span></button>
         <button class="hotspot board" id="board" type="button" aria-label="코르크판 살펴보기"><span>코르크판</span></button>
         <button class="hotspot umbrella" id="umbrella" type="button" aria-label="우산 살펴보기"><span>우산</span></button>
         <button class="hotspot snack" id="snack" type="button" aria-label="간식 살펴보기"><span>간식</span></button>
-
+        <button class="hotspot room-notice" id="roomNotice" type="button" aria-label="알림장 살펴보기" hidden><span>알림장</span></button>
+        <button class="hotspot glue" id="glue" type="button" aria-label="풀통 살펴보기" hidden><span>빈 풀통</span></button>
+        <button class="hotspot clock" id="clock" type="button" aria-label="시계 살펴보기" hidden><span>시계</span></button>
         <div class="drop-zones" id="dropZones" hidden aria-label="가방 둘 곳">
           <button class="drop-zone" data-place="식탁 의자" type="button">식탁 의자</button>
           <button class="drop-zone" data-place="내 방" type="button">내 방</button>
           <button class="drop-zone" data-place="현관 바구니" type="button">현관 바구니</button>
         </div>
-
         <div class="notice-card" id="noticeCard" hidden>
-          <span class="paper-mark">✦</span>
-          <strong>내일 미술</strong>
-          <p>색종이 · 풀 · 자</p>
-          <small>가방 안에서 구겨진 안내장이 나왔다.</small>
+          <span class="paper-mark">✦</span><strong id="cardTitle">내일 미술</strong>
+          <p id="cardList">색종이 · 풀 · 자</p><small id="cardNote">가방 안에서 구겨진 안내장이 나왔다.</small>
         </div>
-
         <div class="scene-copy">
-          <p class="eyebrow">월요일 · 현관</p>
-          <h1 id="sceneTitle">가방이 온 날</h1>
+          <p class="eyebrow" id="sceneEyebrow">월요일 · 현관</p><h1 id="sceneTitle">가방이 온 날</h1>
           <p id="narration">내일 미술 시간에 쓸 준비물이 가방 안에 있다.</p>
         </div>
       </div>
-
       <section class="action-panel" aria-live="polite">
-        <p class="speaker" id="speaker">도윤의 마음</p>
-        <p class="line" id="line">“배가 고픈데… 가방부터 열어 볼까?”</p>
-        <div class="actions" id="actions"></div>
-        <p class="hint" id="hint">반짝이는 물건을 눌러 보세요. 꼭 해야 하는 일 말고도 재미있는 반응이 숨어 있어요.</p>
+        <p class="speaker" id="speaker">도윤의 마음</p><p class="line" id="line">“배가 고픈데… 가방부터 열어 볼까?”</p>
+        <div class="actions" id="actions"></div><p class="hint" id="hint">반짝이는 물건을 눌러 보세요. 꼭 해야 하는 일 말고도 재미있는 반응이 숨어 있어요.</p>
       </section>
     </section>
-
     <section class="trace-card" id="traceCard" hidden>
-      <p class="eyebrow">오늘의 작은 시작</p>
-      <h2 id="traceTitle">가방을 눈에 보이는 곳에 뒀어요.</h2>
-      <p id="traceText"></p>
+      <p class="eyebrow">오늘의 작은 시작</p><h2 id="traceTitle">가방을 눈에 보이는 곳에 뒀어요.</h2><p id="traceText"></p>
       <button class="primary-button" id="nextScene" type="button">방으로 가기</button>
     </section>
   </main>
