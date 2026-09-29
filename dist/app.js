@@ -1,27 +1,32 @@
-const scene=document.querySelector('#scene');
-const el={role:document.querySelector('#roleTag'),eyebrow:document.querySelector('#eyebrow'),title:document.querySelector('#title'),narration:document.querySelector('#narration'),speaker:document.querySelector('#speaker'),line:document.querySelector('#line'),choices:document.querySelector('#choices'),hint:document.querySelector('#hint'),chapter:document.querySelector('#chapterLabel'),board:document.querySelector('#keepsakeBoard'),items:document.querySelector('#keepsakeItems')};
-const STORE='mind-time-machine-keepsakes-v2';
-let shelf=readShelf();
-let state;
+const $=s=>document.querySelector(s);
+const state={notice:false,placement:null,found:new Set()};
+const bag=$('#bag'),card=$('#noticeCard'),zones=$('#dropZones'),trace=$('#traceCard');
+const line=$('#line'),speaker=$('#speaker'),hint=$('#hint'),actions=$('#actions'),narration=$('#narration');
 
-function readShelf(){try{return JSON.parse(localStorage.getItem(STORE))||[]}catch{return[]}}
-function saveShelf(){try{localStorage.setItem(STORE,JSON.stringify(shelf))}catch{}}
-function newMonday(){state={weather:Math.random()>.5?'창문에 빗방울이 조금 남아 있다.':'늦여름 저녁 바람이 현관으로 들어온다.',said:false,checked:false,where:'',trace:null};render('intro')}
-function addTrace(kind,text){state.trace={kind,text}}
-function keepTrace(){if(state.trace&&!shelf.some(x=>x.kind===state.trace.kind)){shelf.push(state.trace);saveShelf()}renderShelf()}
-function renderShelf(){el.items.innerHTML='';shelf.forEach((x,i)=>{const item=document.createElement('div');item.className='keepsake';item.style.setProperty('--tilt',`${[-1,1.2,-.4,1.7][i%4]}deg`);item.innerHTML=`<b>작은 흔적</b>${x.text}`;el.items.append(item)})}
-function go(next,action){if(action)action();render(next)}
-const scenes={
-intro:()=>({tone:'intro',role:'짧은 감정 어드벤처',eyebrow:'CH. 01 · 또 깜빡했어',title:'월요일은 다시 온다',narration:`내일 미술 시간에 필요한 건 색종이와 풀. ${state.weather}`,speaker:'안내',line:'당신은 초등학교 2학년 도윤입니다. 오늘을 완벽히 만들 필요는 없어요.',choices:[['도윤의 저녁 시작하기','foyer','primary']],hint:'이야기에는 정답 루트가 없어요. 다시 해보기는 언제나 가능합니다.'}),
-foyer:()=>({tone:'child',role:'지금 당신은 · 도윤',eyebrow:'월요일 · 현관',title:'가방을 둔 자리',narration:'가방 안쪽에서 알림장 모서리가 조금 보인다. 배가 고프고, 소파는 아주 편해 보인다.',speaker:'도윤의 마음',line:'“나중에 볼까? 그런데 나중에는 늘 금방 와.”',choices:[['가방을 식탁 의자에 걸어 둔다.','desk','primary',()=>{state.where='식탁';state.checked=true}],['방에 가방을 두고 소파부터 간다.','desk','',()=>{state.where='방'}],['알림장을 현관 코르크판에 붙인다.','desk','silly',()=>{state.where='코르크판';state.checked=true}]],hint:'무엇을 먼저 했는지는 기억을 돕기도 하고, 그냥 지나가기도 해요.'}),
-desk:()=>({tone:'desk',role:'지금 당신은 · 도윤',eyebrow:'월요일 · 저녁 전',title:'빈 풀통',narration:`${state.where==='방'?'침대 곁 가방':'눈에 보이는 가방'}을 열자 구겨진 알림장이 나온다. 색종이와 자는 있지만 풀통은 텅 비었다.`,speaker:'도윤',line:'“엄마한테 말하면 왜 이제 말하냐고 할까?”',choices:[['풀통을 들고 주방 앞까지 간다.','dinner','primary',()=>{state.checked=true;state.said=true}],['알림장을 책상 위에 펴 놓는다.','dinner','',()=>{state.checked=true}],['풀통에게 오늘 밤에 스스로 차오르라고 부탁한다.','dinner','silly',()=>{state.where='풀통과 대화'}]],hint:'알아차린 것과 말할 수 있는 것은 가끔 다른 일이에요.'}),
-dinner:()=>({tone:'dinner',role:'지금 당신은 · 도윤',eyebrow:'월요일 · 저녁 식탁',title:'말할 틈',narration:'엄마는 국을 살피고, 젖은 빨래를 널고, 내일 아침 알람을 확인한다. 도윤의 공책은 아직 비어 있다.',speaker:'엄마',line:'“도윤아, 내일 준비물도 가방에 넣었어?”',choices:[['“아직. 가방 열어서 볼게.”','night','primary',()=>{state.checked=true;state.said=true;addTrace('check','가방 옆의 작은 체크표\n가방 열고 세 칸 보기')}],['“풀 다 썼어. 지금 말하면 화낼까 봐.”','night','',()=>{state.said=true;addTrace('note','가방 앞주머니 쪽지\n모르면 먼저 말하기')}],['“응, 챙겼어.”','night','',()=>{state.said=false}]],hint:'같은 질문도 그날의 피곤함과 타이밍에 따라 다르게 들릴 수 있어요.'}),
-night:()=>({tone:'night',role:'지금 당신은 · 도윤',eyebrow:'월요일 · 잠들기 전',title:'마지막 기회',narration:state.said?'풀 문제는 아직 남아 있지만, 엄마도 이미 알고 있다.':'불이 꺼지려 한다. 책상 어딘가에 빈 풀통과 알림장이 남아 있다.',speaker:'엄마',line:'“내일 아침에 늦지 않게 일어나자.”',choices:[['“내일 선생님께 빌릴 수 있는지 말해 볼게.”','morning','primary',()=>{state.said=true;addTrace('color','색종이 카드\n도움이 필요하면 말하기')}],['“엄마, 지금 말하면 화낼 거야?”','morning','',()=>{state.said=true;addTrace('note','가방 앞주머니 쪽지\n모르면 먼저 말하기')}],['그냥 잔다.','morning','silly',()=>{state.said=false;addTrace('half','반쯤 채운 메모\n다음에는 같이 채워 보기')}]],hint:'말하지 못했다고 해서 이야기가 끝나는 건 아니에요.'}),
-morning:()=>({tone:'morning',role:'화요일 아침',eyebrow:'오전 7시 48분 · 현관',title:'지금 할 수 있는 것',narration:state.said?'풀은 없지만, 둘 다 그 사실을 알고 있다. 문구점에 들르기엔 조금 빠듯하다.':'엄마가 가방을 들어 보다가 멈춘다. 어제의 일은 아침에 갑자기 더 커 보인다.',speaker:'엄마',line:state.said?'“선생님께 빌릴 수 있는지 네가 말해 볼까?”':'“어제 챙겼다고 했잖아.”',choices:[['선생님께 필요한 것을 빌릴 수 있는지 말한다.','mother','primary',()=>addTrace('color','색종이 카드\n도움이 필요하면 말하기')],['집에 있는 색종이만 챙긴다.','mother','',()=>addTrace('check','가방 옆의 작은 체크표\n가방 열고 세 칸 보기')],['오늘 저녁에 준비물 바구니를 만들기로 한다.','mother','',()=>addTrace('half','반쯤 채운 메모\n다음에는 같이 채워 보기')]],hint:'수습은 완벽한 해결이 아니라, 지금 가능한 일을 같이 찾는 과정이에요.'}),
-mother:()=>({tone:'mother',role:'잠깐, 엄마의 월요일',eyebrow:'같은 저녁 · 다른 눈',title:'엄마도 놓친 것이 있다',narration:'엄마는 저녁을 치우고, 빨래를 널고, 내일 옷을 꺼내 두었다. “챙겼어?”라고 물었지만 가방을 함께 열어 보지는 못했다.',speaker:'엄마의 마음',line:'“도윤이가 덤벙대서가 아니라, 우리 둘 다 기억에만 맡기고 있었던 걸까?”',choices:[['오늘의 흔적을 현관에 남긴다.','ending','primary',keepTrace]],hint:'서로의 하루를 안다고 어제가 없어지지는 않아요. 다만 다음에 쓸 방법은 함께 고를 수 있어요.'}),
-ending:()=>({tone:'ending',role:'오늘의 끝',eyebrow:'우리 집에 남은 것',title:'다음 월요일에도 보일 것',narration:'가방 옆에 작은 흔적이 하나 남았다. 다음번에도 일이 잘 풀릴 거라는 약속은 아니지만, 다시 시작할 곳은 생겼다.',speaker:'도윤과 엄마',line:'“내일은 내가 먼저 볼 수도 있어.”  “엄마도 묻기만 하지 말고 같이 열어 볼게.”',choices:[['이 장면 다시 보기','foyer','primary',()=>{state={...state,said:false,checked:false,where:'',trace:null,weather:Math.random()>.5?'창문에 빗방울이 조금 남아 있다.':'늦여름 저녁 바람이 현관으로 들어온다.'}}],['새 월요일을 시작하기','intro','',()=>{state={weather:Math.random()>.5?'창문에 빗방울이 조금 남아 있다.':'늦여름 저녁 바람이 현관으로 들어온다.',said:false,checked:false,where:'',trace:null}}]],hint:'다시 하기는 더 좋은 결말을 얻기 위한 시험이 아니라, 다른 마음과 말을 발견하는 놀이예요.'})
-};
-function render(key){const d=scenes[key]();scene.className='scene '+d.tone;el.role.textContent=d.role;el.eyebrow.textContent=d.eyebrow;el.title.textContent=d.title;el.narration.textContent=d.narration;el.speaker.textContent=d.speaker;el.line.textContent=d.line;el.hint.textContent=d.hint;el.chapter.textContent=d.tone==='mother'?'CH. 01 · 엄마의 시간':'CH. 01 · 또 깜빡했어';el.choices.innerHTML='';d.choices.forEach(([label,next,type,action])=>{const b=document.createElement('button');b.type='button';b.className='choice '+(type||'');b.textContent=label;b.addEventListener('click',()=>go(next,action));el.choices.append(b)});el.board.hidden=key!=='ending';if(key==='ending')renderShelf();window.scrollTo({top:0,behavior:'smooth'})}
-document.querySelector('#restart').addEventListener('click',newMonday);
-document.querySelector('#clearKeepsakes').addEventListener('click',()=>{shelf=[];saveShelf();renderShelf()});
-newMonday();
+function setTalk(name,text,tip){speaker.textContent=name;line.textContent=text;hint.textContent=tip||''}
+function setActions(items=[]){actions.innerHTML='';items.forEach(([label,fn])=>{const b=document.createElement('button');b.className='action';b.type='button';b.textContent=label;b.addEventListener('click',fn);actions.append(b)})}
+function found(name,text){state.found.add(name);setTalk('도윤의 마음',text,'다른 반짝이는 물건도 눌러 볼 수 있어요.')}
+function openBag(){
+  state.notice=true;card.hidden=false;zones.hidden=false;bag.classList.add('opened');
+  narration.textContent='가방 앞주머니에서 구겨진 안내장이 나왔다.';
+  setTalk('도윤','“색종이랑 자는 있는데… 풀통은 어디 있지?”','아래 장소 중 하나를 눌러 가방을 옮겨 보세요.');
+  setActions([['안내장 다시 보기',()=>card.animate([{transform:'rotate(-3deg)'},{transform:'rotate(2deg)'},{transform:'rotate(-3deg)'}],{duration:360})]]);
+}
+function placeBag(place){
+  state.placement=place;zones.hidden=true;bag.style.opacity='.18';bag.style.pointerEvents='none';
+  const labels={['식탁 의자']:'눈에 잘 보이는 식탁 의자',['내 방']:'편한 내 방',['현관 바구니']:'현관 바구니'};
+  setTalk('도윤',`“가방은 ${labels[place]}에 둘래.”`,'가방을 둔 곳은 다음 장면에도 기억돼요.');
+  $('#traceTitle').textContent=`가방을 ${place}에 뒀어요.`;
+  $('#traceText').textContent='아직 준비물이 다 해결된 것은 아니지만, 오늘 저녁의 작은 시작이 남았어요.';
+  trace.hidden=false;
+  setActions([['현관을 더 살펴보기',()=>setTalk('도윤의 마음','“우산이랑 간식도 눌러 볼까?”','필수 행동을 끝낸 뒤에도 숨은 반응을 찾을 수 있어요.')]]);
+  trace.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+$('#bag').addEventListener('click',openBag);
+$('#board').addEventListener('click',()=>found('board','“지난주에 붙인 그림도 아직 여기 있네.”'));
+$('#umbrella').addEventListener('click',()=>found('umbrella','우산을 톡 건드리자 물방울이 반짝이며 바닥으로 톡, 톡 떨어졌다.'));
+$('#snack').addEventListener('click',()=>found('snack','“간식은 먹고 싶지만, 가방도 조금 신경 쓰여.”'));
+document.querySelectorAll('.drop-zone').forEach(b=>b.addEventListener('click',()=>placeBag(b.dataset.place)));
+$('#restart').addEventListener('click',()=>location.reload());
+$('#nextScene').addEventListener('click',()=>{setTalk('다음 장면','도윤의 방에서 알림장을 펴 보고, 빈 풀통을 찾아볼 차례예요.','방 장면은 다음 작업에서 이어집니다. 현관의 가방 위치는 이미 기록됐어요.');});
+setActions([['가방 열어 보기',openBag]]);
