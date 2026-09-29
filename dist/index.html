@@ -1,49 +1,66 @@
 <!doctype html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#10233f" />
-    <meta name="description" content="아이와 부모가 반복되는 일상 속에서 다시 시도한 흔적을 남기는 짧은 감정 어드벤처" />
-    <title>마음의 타임머신 — 또 깜빡했어</title>
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <main class="game-shell" aria-live="polite">
-      <header class="topbar">
-        <a class="brand" href="./" aria-label="처음으로">마음의 <strong>타임머신</strong></a>
-        <div class="chapter-label" id="chapterLabel">CH. 01 · 또 깜빡했어</div>
-        <button class="quiet-button" id="restart" type="button">이번 월요일 처음부터</button>
-      </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#172841" />
+  <meta name="description" content="그림을 탐색하고 작은 흔적을 남기는 가족 이야기 게임" />
+  <title>마음의 타임머신 — 또 깜빡했어</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="game-shell">
+    <header class="topbar">
+      <a class="brand" href="./">마음의 <strong>타임머신</strong></a>
+      <span>CH. 01 · 또 깜빡했어</span>
+      <button id="restart" class="quiet-button" type="button">다시 보기</button>
+    </header>
 
-      <section class="scene" id="scene">
-        <div class="scene-image" aria-hidden="true"></div>
-        <div class="scene-vignette" aria-hidden="true"></div>
+    <section class="explore" aria-labelledby="sceneTitle">
+      <div class="art-stage" id="stage">
+        <img src="./assets/ch01-entryway.jpg" alt="저녁 현관의 가방, 우산, 간식, 코르크판" />
+        <div class="shade" aria-hidden="true"></div>
+
+        <button class="hotspot bag" id="bag" type="button" aria-label="가방 살펴보기"><span>가방</span></button>
+        <button class="hotspot board" id="board" type="button" aria-label="코르크판 살펴보기"><span>코르크판</span></button>
+        <button class="hotspot umbrella" id="umbrella" type="button" aria-label="우산 살펴보기"><span>우산</span></button>
+        <button class="hotspot snack" id="snack" type="button" aria-label="간식 살펴보기"><span>간식</span></button>
+
+        <div class="drop-zones" id="dropZones" hidden aria-label="가방 둘 곳">
+          <button class="drop-zone" data-place="식탁 의자" type="button">식탁 의자</button>
+          <button class="drop-zone" data-place="내 방" type="button">내 방</button>
+          <button class="drop-zone" data-place="현관 바구니" type="button">현관 바구니</button>
+        </div>
+
+        <div class="notice-card" id="noticeCard" hidden>
+          <span class="paper-mark">✦</span>
+          <strong>내일 미술</strong>
+          <p>색종이 · 풀 · 자</p>
+          <small>가방 안에서 구겨진 안내장이 나왔다.</small>
+        </div>
+
         <div class="scene-copy">
-          <p class="role-tag" id="roleTag"></p>
-          <p class="eyebrow" id="eyebrow"></p>
-          <h1 id="title"></h1>
-          <p class="narration" id="narration"></p>
+          <p class="eyebrow">월요일 · 현관</p>
+          <h1 id="sceneTitle">가방이 온 날</h1>
+          <p id="narration">내일 미술 시간에 쓸 준비물이 가방 안에 있다.</p>
         </div>
-      </section>
+      </div>
 
-      <section class="dialogue-panel" aria-label="이야기 선택">
-        <div class="speaker" id="speaker"></div>
-        <p class="line" id="line"></p>
-        <div class="choices" id="choices"></div>
-        <p class="hint" id="hint"></p>
+      <section class="action-panel" aria-live="polite">
+        <p class="speaker" id="speaker">도윤의 마음</p>
+        <p class="line" id="line">“배가 고픈데… 가방부터 열어 볼까?”</p>
+        <div class="actions" id="actions"></div>
+        <p class="hint" id="hint">반짝이는 물건을 눌러 보세요. 꼭 해야 하는 일 말고도 재미있는 반응이 숨어 있어요.</p>
       </section>
+    </section>
 
-      <section class="keepsake-board" id="keepsakeBoard" hidden aria-label="우리 집에 남은 것">
-        <div>
-          <p class="eyebrow">우리 집에 남은 것</p>
-          <h2>다음 월요일에도 보일 작은 흔적</h2>
-          <p>점수도, 정답도 아니에요. 오늘 함께 남긴 방법이에요.</p>
-        </div>
-        <div class="keepsake-items" id="keepsakeItems"></div>
-        <button class="quiet-button clear-button" id="clearKeepsakes" type="button">흔적 선반 비우기</button>
-      </section>
-    </main>
-    <script src="./app.js"></script>
-  </body>
+    <section class="trace-card" id="traceCard" hidden>
+      <p class="eyebrow">오늘의 작은 시작</p>
+      <h2 id="traceTitle">가방을 눈에 보이는 곳에 뒀어요.</h2>
+      <p id="traceText"></p>
+      <button class="primary-button" id="nextScene" type="button">방으로 가기</button>
+    </section>
+  </main>
+  <script src="./app.js"></script>
+</body>
 </html>
